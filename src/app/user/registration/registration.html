@@ -1,0 +1,206 @@
+<div class="container pt-5">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h3 class="mb-4">Registration</h3>
+
+    <!-- Full Name -->
+    <div class="form-group mb-3">
+      <label for="fullName" class="form-label">Full Name</label>
+      <input
+        type="text"
+        id="fullName"
+        class="form-control"
+        formControlName="fullName"
+        placeholder="Enter your full name"
+      />
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('fullName') && form.controls['fullName'].hasError('required')"
+      >
+        Full Name is required
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="Enter your email"
+      />
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('email') && form.controls['email'].hasError('required')"
+      >
+        Email is required
+      </div>
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('email') && form.controls['email'].hasError('email')"
+      >
+        Enter a valid email address
+      </div>
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('email') && form.controls['email'].hasError('pattern')"
+      >
+        Email domain must be gmail.com, outlook.com, or yahoo.com
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group mb-3">
+      <label for="phoneNumber" class="form-label">Phone Number</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        class="form-control"
+        formControlName="phoneNumber"
+        placeholder="Enter your phone number"
+      />
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('phoneNumber') && form.controls['phoneNumber'].hasError('required')"
+      >
+        Phone Number is required
+      </div>
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('phoneNumber') && form.controls['phoneNumber'].hasError('pattern')"
+      >
+        Phone Number must be 10 digits and start with 9
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('password') && form.controls['password'].hasError('required')"
+      >
+        Password is required
+      </div>
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('password') && form.controls['password'].hasError('pattern')"
+      >
+        Password must be at least 8 characters long and include at least one
+        uppercase letter, one lowercase letter, one digit, and one special
+        character
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group mb-3">
+      <label for="confirmPassword" class="form-label">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        class="form-control"
+        formControlName="confirmPassword"
+        placeholder="Confirm your password"
+      />
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('confirmPassword') && form.controls['confirmPassword'].hasError('passwordMismatch')"
+      >
+        Passwords do not match
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="form-group mb-3">
+      <label for="role" class="form-label">Role</label>
+      <select id="role" class="form-control" formControlName="role">
+        <option value="">Select role</option>
+        <option value="User">User</option>
+        <option value="Driver">Driver</option>
+      </select>
+      <div
+        class="error-feedback"
+        *ngIf="hasDisplayError('role') && form.controls['role'].hasError('required')"
+      >
+        Role is required
+      </div>
+    </div>
+
+    <!-- Driver-Specific Fields -->
+    <div *ngIf="form.get('role')?.value === 'Driver'">
+      <!-- License Number -->
+      <div class="form-group mb-3">
+        <label for="licenseNumber" class="form-label">License Number</label>
+        <input
+          type="text"
+          id="licenseNumber"
+          class="form-control"
+          formControlName="licenseNumber"
+          placeholder="Enter your license number"
+        />
+        <div
+          class="error-feedback"
+          *ngIf="hasDisplayError('licenseNumber') && form.controls['licenseNumber'].hasError('required')"
+        >
+          License Number is required for drivers
+        </div>
+      </div>
+
+      <!-- Vehicle Details -->
+      <div class="form-group mb-3">
+        <label for="vehicleDetails" class="form-label">Vehicle Details</label>
+        <input
+          type="text"
+          id="vehicleDetails"
+          class="form-control"
+          formControlName="vehicleDetails"
+          placeholder="Enter your vehicle details"
+        />
+        <div
+          class="error-feedback"
+          *ngIf="hasDisplayError('vehicleDetails') && form.controls['vehicleDetails'].hasError('required')"
+        >
+          Vehicle Details are required for drivers
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group mb-3">
+        <label for="status" class="form-label">Status</label>
+        <input
+          type="text"
+          id="status"
+          class="form-control"
+          formControlName="status"
+          placeholder="Enter your status"
+        />
+        <div
+          class="error-feedback"
+          *ngIf="hasDisplayError('status') && form.controls['status'].hasError('required')"
+        >
+          Status is required for drivers
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+
+    <!-- Login Redirect -->
+    <div class="d-grid mt-3">
+      <button type="button" class="btn btn-secondary" routerLink="/login">
+        Already have an account? Login
+      </button>
+    </div>
+  </form>
+</div>
