@@ -17,6 +17,7 @@ import { AuthService } from '../../shared/services/auth';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './registration.html',
+  styleUrls: ['./registration.css'],
 })
 export class Registration implements OnInit {
   form: FormGroup;

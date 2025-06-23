@@ -5,5 +5,5 @@ import { User } from './user/user';
 export const routes: Routes = [
   { path: 'register', component: Registration },
   // {path: 'User', component: User},
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  // { path: '', redirectTo: 'register', pathMatch: 'full' },
 ];
