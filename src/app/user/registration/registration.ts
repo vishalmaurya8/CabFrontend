@@ -9,6 +9,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Toast } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth';
 
