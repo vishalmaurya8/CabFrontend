@@ -31,11 +31,12 @@ export class LoginComponent {
         if (response && response.token) {
           localStorage.setItem('jwt_token', response.token);
           console.log('Token stored in localStorage.');
+          this.router.navigate(['/dashboard']); // Redirect to dashboard
         } else {
           console.warn('Login successful, but no token received in response.');
         }
 
-        this.router.navigate(['/dashboard']); // Navigate to the dashboard
+        // this.router.navigate(['/dashboard']); // Navigate to the dashboard
       },
       error: (error) => {
         console.error('Login failed:', error);

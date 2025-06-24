@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router'; // Import Router
+ 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [], // Add CommonModule here if you use things like ngIf, ngFor in your HTML
-  templateUrl: './dashboard.html',   // <--- Path adjusted to match 'dashboard.html'
-  styleUrls: ['./dashboard.css']     // <--- Path adjusted to match 'dashboard.css' (and ensures it's plural)
+  imports: [],
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.css']
 })
-export class DashboardComponent { // This class name must be 'DashboardComponent'
-
+export class DashboardComponent {
+  constructor(private router: Router) { } // Inject Router
+ 
+  logout() {
+    localStorage.removeItem('jwt_token'); // Remove the token
+    this.router.navigate(['/login']); // Go back to login page
+  }
 }
