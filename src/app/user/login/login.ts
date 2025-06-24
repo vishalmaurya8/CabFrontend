@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; // For navigation
+import { Router, RouterLink } from '@angular/router'; // For navigation
 import { HttpClient } from '@angular/common/http'; // For HTTP requests
 import { FormsModule } from '@angular/forms'; // For [(ngModel)]
 import { HttpClientModule } from '@angular/common/http'; // Ensure this is imported
@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http'; // Ensure this is impor
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, HttpClientModule], // Correct imports
+  imports: [FormsModule, RouterLink, HttpClientModule], // Correct imports
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
