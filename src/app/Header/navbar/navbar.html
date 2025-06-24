@@ -1,15 +1,17 @@
 <header>
-    <div class="container">
-      <h1 class="logo"></h1>
-      <nav>
+  <div class="container">
+    <h1 class="logo">TapRide</h1>
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+    <nav [class.active]="menuOpen">
+      <div class="nav-card">
         <ul>
           <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/about">About</a></li>
-          <li><a routerLink="/contact">Contact Us</a></li>
-          <li><a routerLink="/registered">Sign In</a></li>
-          <li><a routerLink="/register">Sign Up</a></li> <!-- Sign Up button -->
+          <li><a routerLink="/about-us">About</a></li>
+          <li><a routerLink="/contact-us">Contact Us</a></li>
+          <li><a routerLink="/login">Sign In</a></li>
+          <li><a routerLink="/register">Sign Up</a></li>
         </ul>
-      </nav>
-    </div>
-  </header>
-  
+      </div>
+    </nav>
+  </div>
+</header>

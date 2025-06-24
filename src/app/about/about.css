@@ -1,0 +1,102 @@
+/* Apply Inter font family to the component's main container */
+.about-us-background {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f0f8ff, #e6f7ff); /* Very light blue gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Ensure the host element fills the viewport */
+  :host {
+    display: block;
+    min-height: 100vh;
+  }
+  
+  /* Custom styling for the main about us card */
+  .about-card-custom {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1); /* Slightly larger shadow for the main card */
+  }
+  
+  /* Styling for the image within the card */
+  .about-us-image {
+    max-height: 400px; /* Limit image height */
+    object-fit: cover;
+    border: 4px solid rgba(13, 110, 253, 0.2); /* Light blue border */
+  }
+  
+  /* Custom styling for value cards */
+  .value-card-custom {
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08); /* Lighter shadow for value cards */
+  }
+  
+  .value-card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Style for the value icon circles */
+  .value-icon-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    line-height: 1;
+    color: #0d6efd; /* Bootstrap primary blue */
+    background-color: rgba(13, 110, 253, 0.1); /* Light primary background */
+    border-radius: 50%;
+    margin: 0 auto 1rem auto; /* Center and space below */
+  }
+  
+  /* Custom button gradient for the call to action in About Us */
+  .custom-btn-gradient-about {
+    background: linear-gradient(45deg, #0dcaf0, #0d6efd); /* Light blue to primary blue gradient */
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom-btn-gradient-about::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 0;
+  }
+  
+  .custom-btn-gradient-about:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  
+  .custom-btn-gradient-about span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 767.98px) { /* Corresponds to Bootstrap's 'md' breakpoint */
+    .about-card-custom .card-body {
+      padding: 1.5rem;
+    }
+  
+    .value-icon-circle {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+    }
+  
+    .about-us-image {
+      max-height: 250px; /* Adjust image height on smaller screens */
+    }
+  }
+  

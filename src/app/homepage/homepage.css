@@ -1,0 +1,82 @@
+.min-vh-100 { /* This is the main div in home.html, target it */
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e0f2f7, #d1e8ef); /* Light blue to a slightly deeper blue gradient */
+  }
+  
+  
+  /* Ensure the root element fills the viewport for responsive min-height */
+  :host {
+    display: block; /* Ensures the host element takes up space and allows min-height */
+    min-height: 100vh;
+  }
+  
+  /* Custom button gradient for the call to action */
+  .custom-btn-gradient {
+    background: linear-gradient(45deg, #0d6efd, #6610f2); /* Bootstrap primary blue to a deeper purple */
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom-btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 0;
+  }
+  
+  .custom-btn-gradient:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  
+  .custom-btn-gradient span { /* If you add a span for text, it would be relative to this */
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Custom styles for feature cards to add depth and hover effects */
+  .feature-card-custom {
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+  }
+  
+  .feature-card-custom:hover {
+    transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* More pronounced shadow on hover using Bootstrap's shadow */
+    border-color: rgba(102, 16, 242, 0.5) !important; /* Subtle border color change on hover, matching gradient */
+  }
+  
+  /* Style for the feature icon circles */
+  .feature-icon-circle {
+    width: 90px; /* Larger circles */
+    height: 90px;
+    font-size: 3rem; /* Larger emoji size */
+    line-height: 1; /* Adjust line height for vertical centering */
+    color: #0d6efd; /* Matching Bootstrap primary color */
+  }
+  
+  /* Responsive adjustments for smaller screens (Bootstrap handles most, but for specific font sizes) */
+  @media (max-width: 575.98px) { /* Corresponds to Bootstrap's 'sm' breakpoint */
+    .display-4 {
+      font-size: 2.5rem; /* Adjust font size for smaller screens */
+    }
+  
+    .lead {
+      font-size: 1rem;
+    }
+  
+    .feature-icon-circle {
+      width: 70px;
+      height: 70px;
+      font-size: 2.5rem;
+    }
+  }
+  

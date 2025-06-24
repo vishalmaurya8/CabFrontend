@@ -1,0 +1,56 @@
+<!-- Main container for the home page, with responsive padding and background -->
+<div class="min-vh-100 bg-light py-5 px-3"> <!-- bg-light for a light background, py-5 for vertical padding, px-3 for horizontal -->
+    <!-- Hero Section: App Title and Introduction -->
+    <header class="container text-center mb-5">
+      <h1 class="display-4 fw-bold text-dark mb-4 p-4 rounded-3 shadow-lg bg-white bg-opacity-75">
+        Your Ultimate Cab Booking Solution
+      </h1>
+      <p class="lead text-dark-50 mb-5 p-4 rounded-3 shadow-sm bg-white bg-opacity-75">
+        Welcome to our premier cab booking service, designed to make your travel seamless, safe, and incredibly convenient. Whether you're heading to work, the airport, or a night out, we ensure you get there comfortably and on time.
+      </p>
+      <!-- Call to action button, linking to the login/booking page -->
+      <a routerLink="/login" class="btn btn-primary btn-lg rounded-pill shadow-lg custom-btn-gradient">
+        Book Your First Ride Now!
+      </a>
+    </header>
+  
+    <!-- Features Section: Displaying cards for each feature -->
+    <section class="container mb-5">
+      <h2 class="text-center h2 fw-bold text-dark mb-5">Why Choose Us?</h2>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <!-- Angular ngFor to loop through the 'features' array defined in HomepageComponent -->
+        <div *ngFor="let feature of features" class="col">
+          <div class="card h-100 text-center border-0 rounded-4 shadow-sm feature-card-custom">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+              <div class="feature-icon-circle bg-info-subtle rounded-circle d-flex align-items-center justify-content-center mb-4 shadow-sm">
+                {{ feature.icon }} <!-- Displays the emoji icon -->
+              </div>
+              <h3 class="h5 fw-semibold text-dark mb-3">{{ feature.title }}</h3>
+              <p class="card-text text-dark-50">{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- About the App Section: More detailed paragraphs -->
+    <section class="container text-center mb-5 p-5 bg-white rounded-4 shadow-lg">
+      <h2 class="h2 fw-bold text-dark mb-4">About Our Cab Booking App</h2>
+      <div class="lead text-dark-50 text-start">
+        <p class="mb-4">
+          Our cab booking application is built with you in mind. We understand the challenges of urban commuting and aim to provide a stress-free alternative. From the moment you open the app to the completion of your journey, every step is designed for clarity and efficiency. Our network of verified drivers and meticulously maintained vehicles ensures a premium experience every time.
+        </p>
+        <p class="mb-4">
+          Safety is our top priority. All rides are tracked, and you have the option to share your journey details with loved ones. Our customer support is available 24/7 to address any concerns or queries, ensuring your peace of mind throughout your travel. We are committed to constantly improving our services and adding new features based on your feedback.
+        </p>
+        <p class="mb-0">
+          Join thousands of satisfied commuters who rely on us for their daily travel needs. Experience the future of urban transportation – download our app today and discover the difference!
+        </p>
+      </div>
+    </section>
+  
+    <!-- Optional: Footer or Copyright information -->
+    <footer class="container text-center text-secondary text-sm mt-5 pt-4 border-top border-light">
+      &copy; {{ currentYear }} Cab Booking System. All rights reserved.
+    </footer>
+  </div>

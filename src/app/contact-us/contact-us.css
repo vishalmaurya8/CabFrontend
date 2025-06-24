@@ -1,0 +1,69 @@
+/* Apply Inter font family to the component's main container */
+.contact-us-background {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #c5e4f3); /* A softer blue gradient */
+    display: flex; /* Use flexbox to center content vertically */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+  }
+  
+  /* Ensure the host element fills the viewport */
+  :host {
+    display: block;
+    min-height: 100vh;
+  }
+  
+  /* Custom styling for the main contact card */
+  .contact-card-custom {
+    transition: all 0.3s ease-in-out;
+    border: none; /* Remove default Bootstrap border */
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15); /* More prominent shadow */
+  }
+  
+  .contact-card-custom:hover {
+    transform: translateY(-5px); /* Slightly lift the card on hover */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+  }
+  
+  /* Styling for contact detail items */
+  .contact-detail-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #343a40; /* Dark text for readability */
+  }
+  
+  .contact-detail-item strong {
+    margin-right: 0.5rem;
+    min-width: 70px; /* Give strong tag a min-width for alignment */
+  }
+  
+  /* Ensure image within the card is responsive and has some padding */
+  .card img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    padding: 1rem; /* Padding inside the image column for visual spacing */
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 767.98px) { /* Corresponds to Bootstrap's 'md' breakpoint */
+    .contact-card-custom .card-body {
+      padding: 1.5rem; /* Reduce padding on smaller screens */
+    }
+  
+    .contact-detail-item {
+      font-size: 1rem; /* Adjust font size */
+      flex-direction: column; /* Stack icon and text vertically on very small screens if needed, or just align left */
+      align-items: flex-start;
+    }
+  
+    .contact-detail-item i {
+      margin-bottom: 0.25rem;
+    }
+  
+    .contact-detail-item strong {
+      min-width: unset; /* Remove min-width on small screens */
+    }
+  }
+  
