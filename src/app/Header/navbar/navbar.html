@@ -5,11 +5,29 @@
     <nav [class.active]="menuOpen">
       <div class="nav-card">
         <ul>
-          <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/about-us">About</a></li>
-          <li><a routerLink="/contact-us">Contact Us</a></li>
-          <li><a routerLink="/login">Sign In</a></li>
-          <!-- <li><a routerLink="/register">Sign Up</a></li> -->
+          <!-- Always visible (Home, About, Contact) - typically even for logged out users -->
+          <li><a routerLink="/home" (click)="menuOpen = false">Home</a></li>
+          <li><a routerLink="/about-us" (click)="menuOpen = false">About</a></li>
+          <li><a routerLink="/contact-us" (click)="menuOpen = false">Contact Us</a></li>
+
+          <!-- Links visible ONLY when NOT logged in -->
+          <ng-container *ngIf="!isLoggedIn">
+            <li><a routerLink="/login" (click)="menuOpen = false">Login</a></li>
+            <!-- <li><a routerLink="/register" (click)="menuOpen = false">Sign Up</a></li> -->
+          </ng-container>
+
+          <!-- Links visible ONLY when LOGGED IN -->
+          <ng-container *ngIf="isLoggedIn">
+            <!-- Profile link (visible for both roles) -->
+            <li><a routerLink="/profile" (click)="menuOpen = false">Profile</a></li>
+
+            <!-- Role-specific dashboard links -->
+            <li *ngIf="isUser()"><a routerLink="/user-dashboard" (click)="menuOpen = false">User Dashboard</a></li>
+            <li *ngIf="isDriver()"><a routerLink="/driver-dashboard" (click)="menuOpen = false">Driver Dashboard</a></li>
+
+            <!-- Logout link -->
+            <li><a (click)="onLogout()">Log Out</a></li>
+          </ng-container>
         </ul>
       </div>
     </nav>

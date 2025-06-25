@@ -5,11 +5,11 @@ import {
   getDOM,
   isPlatformServer,
   setRootDomAdapter
-} from "./chunk-SRK3H2DJ.js";
+} from "./chunk-XHPTVFTX.js";
 import {
   XhrFactory,
   parseCookieValue
-} from "./chunk-5WZ7CC4M.js";
+} from "./chunk-FINORS3Y.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -34,7 +34,6 @@ import {
   TestabilityRegistry,
   TracingService,
   ViewEncapsulation,
-  __spreadValues,
   _global,
   createPlatformFactory,
   inject,
@@ -46,9 +45,12 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-KGNT7U4K.js";
+} from "./chunk-OXPAFIZG.js";
+import {
+  __spreadValues
+} from "./chunk-OITBPBCK.js";
 
-// node_modules/@angular/platform-browser/fesm2022/dom_renderer-Frqw9gM5.mjs
+// ../../../node_modules/@angular/platform-browser/fesm2022/dom_renderer-Frqw9gM5.mjs
 var EVENT_MANAGER_PLUGINS = new InjectionToken(ngDevMode ? "EventManagerPlugins" : "");
 var EventManager = class _EventManager {
   _zone;
@@ -758,7 +760,7 @@ var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRender
   }
 };
 
-// node_modules/@angular/platform-browser/fesm2022/browser-DKgH74dt.mjs
+// ../../../node_modules/@angular/platform-browser/fesm2022/browser-DKgH74dt.mjs
 var BrowserDomAdapter = class _BrowserDomAdapter extends DomAdapter {
   supportsDOMEvents = true;
   static makeCurrent() {
@@ -1227,4 +1229,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-CV7IB6UY.js.map
+//# sourceMappingURL=chunk-FDD3FQKT.js.map

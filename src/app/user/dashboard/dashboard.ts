@@ -12,7 +12,7 @@ export class DashboardComponent {
   constructor(private router: Router) { } // Inject Router
  
   logout() {
-    localStorage.removeItem('jwt_token'); // Remove the token
+    sessionStorage.removeItem('jwt_token'); // Remove the token
     this.router.navigate(['/login']); // Go back to login page
   }
 }

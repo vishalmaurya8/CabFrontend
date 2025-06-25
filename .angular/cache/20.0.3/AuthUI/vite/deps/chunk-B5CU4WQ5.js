@@ -1,4 +1,4 @@
-// node_modules/@angular/animations/fesm2022/private_export-B_vy_9K7.mjs
+// ../../../node_modules/@angular/animations/fesm2022/private_export-B_vy_9K7.mjs
 var AnimationMetadataType;
 (function(AnimationMetadataType2) {
   AnimationMetadataType2[AnimationMetadataType2["State"] = 0] = "State";
@@ -279,4 +279,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-RR2NC3XX.js.map
+//# sourceMappingURL=chunk-B5CU4WQ5.js.map
