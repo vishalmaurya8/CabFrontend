@@ -7,8 +7,12 @@ import { HomepageComponent } from './homepage/homepage'; // Updated
 // import to HomepageComponent
 import { ContactUsComponent } from './contact-us/contact-us'; // Import your new ContactUsComponent
 import { AboutUsComponent } from './about/about'; // Import your new AboutUsComponent
+
 import { User } from './user/user';
 import { AuthGuard } from './user/auth-guard'; // Import AuthGuard
+import { UserDashboardComponent } from './user/dashboard/userdashboard/userdashboard';
+import { DriverDashboardComponent } from './user/dashboard/driverdashboard/driverdashboard';
+import { ProfileComponent } from './user/dashboard/profile/profile';
 
 export const routes: Routes = [
   { path: 'register', component: Registration },
@@ -18,5 +22,8 @@ export const routes: Routes = [
   { path: 'home', component: HomepageComponent }, // Updated component name in the route
   { path: 'about-us', component: AboutUsComponent }, // Add this route
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] }, // User dashboard
+  { path: 'driver-dashboard', component: DriverDashboardComponent, canActivate: [AuthGuard] }, // Driver dashboard
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Profile component
   // {path: 'User', component: User},
 ];

@@ -1,0 +1,133 @@
+<!-- Main container for the profile page, with responsive padding and background -->
+<div class="min-vh-100 bg-light py-5 px-3 profile-background">
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+          <!-- Main Profile Card -->
+          <div class="card shadow-lg border-0 rounded-4 profile-card-custom">
+            <div class="card-body p-4 p-md-5">
+  
+              <h1 class="card-title h1 fw-bold text-dark text-center mb-5">
+                My Profile
+              </h1>
+  
+              <!-- Loading Indicator -->
+              <div *ngIf="isLoading" class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-primary">Loading profile data...</p>
+              </div>
+  
+              <!-- Error Message -->
+              <div *ngIf="errorMessage" class="alert alert-danger text-center" role="alert">
+                {{ errorMessage }}
+                <a routerLink="/login" class="alert-link ms-2">Please login again.</a>
+              </div>
+  
+              <!-- Profile Content (shown only when not loading and no error) -->
+              <div *ngIf="!isLoading && !errorMessage && userProfile">
+                <div class="row g-4 mb-5 align-items-center">
+                  <!-- Profile Picture -->
+                  <div class="col-md-3 text-center">
+                    <img [src]="userProfile.profileImageUrl" alt="Profile Picture" class="img-fluid rounded-circle profile-img shadow-sm mb-3">
+                    <h2 class="h4 fw-bold text-dark">{{ userProfile.firstName }} {{ userProfile.lastName }}</h2>
+                    <p class="text-muted small">Member since {{ userProfile.memberSince }}</p>
+                  </div>
+                  <!-- Profile Details -->
+                  <div class="col-md-9">
+                    <h3 class="h5 fw-semibold text-dark mb-3">Contact Information</h3>
+                    <ul class="list-group list-group-flush profile-details-list">
+                      <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-envelope-fill me-3 text-primary fs-5"></i>
+                        <span><strong>Email:</strong> {{ userProfile.email }}</span>
+                      </li>
+                      <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-telephone-fill me-3 text-primary fs-5"></i>
+                        <span><strong>Phone:</strong> {{ userProfile.phone }}</span>
+                      </li>
+                    </ul>
+                    <!-- Optional: Edit Profile Button -->
+                    <div class="mt-4 text-center text-md-start">
+                      <button class="btn btn-primary rounded-pill px-4">Edit Profile</button>
+                    </div>
+                  </div>
+                </div>
+  
+                <hr class="my-5 border-primary opacity-25">
+  
+                <!-- Booked Rides Section -->
+                <h2 class="h3 fw-bold text-dark text-center mb-4">My Booked Rides</h2>
+                <div *ngIf="bookedRides.length > 0; else noRides" class="row row-cols-1 g-4">
+                  <div *ngFor="let ride of bookedRides" class="col">
+                    <div class="card shadow-sm border-0 rounded-3 ride-card-custom">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                          <h4 class="h5 card-title fw-semibold text-primary">{{ ride.pickupLocation }} <i class="bi bi-arrow-right-short"></i> {{ ride.dropoffLocation }}</h4>
+                          <span class="badge" [ngClass]="{
+                            'bg-success': ride.status === 'Completed',
+                            'bg-info': ride.status === 'Upcoming',
+                            'bg-danger': ride.status === 'Cancelled'
+                          }">{{ ride.status }}</span>
+                        </div>
+                        <p class="card-text mb-1"><strong>Date:</strong> {{ ride.date }} | <strong>Time:</strong> {{ ride.time }}</p>
+                        <p class="card-text mb-1"><strong>Driver:</strong> {{ ride.driverName }} (Rating: {{ ride.driverRating }} <i class="bi bi-star-fill text-warning"></i>)</p>
+                        <p class="card-text fw-bold text-dark">Fare: ${{ ride.fare | number:'1.2-2' }}</p>
+                        <small class="text-muted">Ride ID: {{ ride.id }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noRides>
+                  <div class="alert alert-info text-center" role="alert">
+                    You haven't booked any rides yet!
+                    <a routerLink="/home" class="alert-link ms-2">Book your first ride now.</a>
+                  </div>
+                </ng-template>
+  
+                <hr class="my-5 border-primary opacity-25">
+  
+                <!-- Ratings Given Section -->
+                <h2 class="h3 fw-bold text-dark text-center mb-4">My Ratings</h2>
+                <div *ngIf="ratingsGiven.length > 0; else noRatings" class="row row-cols-1 g-4">
+                  <div *ngFor="let rating of ratingsGiven" class="col">
+                    <div class="card shadow-sm border-0 rounded-3 rating-card-custom">
+                      <div class="card-body">
+                        <h5 class="card-title fw-semibold text-dark">Rating for {{ rating.driverName }}</h5>
+                        <div class="mb-2">
+                          <ng-container *ngFor="let _ of getStarArray(rating.rating)">
+                            <i class="bi bi-star-fill text-warning"></i>
+                          </ng-container>
+                          <ng-container *ngIf="hasHalfStar(rating.rating)">
+                            <i class="bi bi-star-half text-warning"></i>
+                          </ng-container>
+                          <ng-container *ngFor="let _ of getEmptyStarArray(rating.rating)">
+                            <i class="bi bi-star text-warning"></i>
+                          </ng-container>
+                          <span class="ms-2 text-muted">({{ rating.rating }} / 5)</span>
+                        </div>
+                        <p class="card-text fst-italic">"{{ rating.comment }}"</p>
+                        <small class="text-muted">Rated on {{ rating.date }} | Ride: {{ rating.rideId }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noRatings>
+                  <div class="alert alert-info text-center" role="alert">
+                    You haven't given any ratings yet.
+                  </div>
+                </ng-template>
+              </div>
+  
+              <!-- Back to Home button -->
+              <div class="text-center mt-5">
+                <a routerLink="/home" class="btn btn-outline-primary rounded-pill px-4">Back to Home</a>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,94 @@
+/* Apply Inter font family to the component's main container */
+.profile-background {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e6f7ff, #b3e0ff); /* Light blue to a slightly deeper blue */
+    display: flex; /* Use flexbox to center content vertically */
+    align-items: flex-start; /* Align to top, allowing content to push down */
+    justify-content: center; /* Center items horizontally */
+    padding-top: 3rem; /* Add some top padding */
+    padding-bottom: 3rem; /* Add some bottom padding */
+  }
+  
+  /* Ensure the host element fills the viewport */
+  :host {
+    display: block;
+    min-height: 100vh;
+  }
+  
+  /* Custom styling for the main profile card */
+  .profile-card-custom {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1); /* Prominent shadow */
+    margin-top: 2rem; /* Add margin to top of the card */
+    margin-bottom: 2rem; /* Add margin to bottom of the card */
+  }
+  
+  /* Profile image styling */
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid #0d6efd; /* Primary blue border */
+    padding: 3px; /* Inner padding for border effect */
+  }
+  
+  /* Custom list group items for profile details */
+  .profile-details-list .list-group-item {
+    border: none; /* Remove default list group item border */
+    padding-left: 0;
+    padding-right: 0;
+    background-color: transparent; /* Make background transparent */
+    font-size: 1.05rem;
+  }
+  
+  .profile-details-list .list-group-item i {
+    color: #0d6efd; /* Bootstrap primary color for icons */
+  }
+  
+  /* Ride and Rating Card Customization */
+  .ride-card-custom,
+  .rating-card-custom {
+    transition: all 0.2s ease-in-out;
+    border-left: 5px solid #0d6efd; /* Distinct left border for emphasis */
+  }
+  
+  .ride-card-custom:hover,
+  .rating-card-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for star icons in ratings */
+  .bi-star-fill, .bi-star-half, .bi-star {
+    color: #ffc107; /* Bootstrap warning color for stars */
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 767.98px) { /* Corresponds to Bootstrap's 'md' breakpoint */
+    .profile-card-custom .card-body {
+      padding: 1.5rem; /* Reduce padding on smaller screens */
+    }
+  
+    .profile-img {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .profile-background {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      align-items: flex-start; /* Ensure content doesn't push off screen */
+    }
+  }
+  
+  @media (max-width: 575.98px) { /* Corresponds to Bootstrap's 'sm' breakpoint */
+    .profile-details-list .list-group-item {
+      font-size: 0.95rem;
+    }
+  
+    .profile-details-list .list-group-item strong {
+      display: block; /* Stack label and value on very small screens */
+    }
+  }
+  
