@@ -3,14 +3,14 @@
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
   <div *ngIf="profile" class="card">
     <div class="card-header">
-      <h3>{{ profile.name }}</h3>
+      <h3>{{ profile.firstName }}</h3>
     </div>
     <div class="card-body">
-      <p><strong>Email:</strong> {{ profile.email }}</p>
+      <p><strong>Email:</strong> {{ profile.emailaddress }}</p>
       <p><strong>Phone:</strong> {{ profile.phone }}</p>
       <p *ngIf="profile.role"><strong>Role:</strong> {{ profile.role }}</p>
-      <p *ngIf="profile.licenseNo"><strong>License No:</strong> {{ profile.licenseNo }}</p>
-      <p *ngIf="profile.vehicleDetails"><strong>Vehicle Details:</strong> {{ profile.vehicleDetails }}</p>
+      <p *ngIf="profile.licenseNumber"><strong>License No:</strong> {{ profile.licenseNumber }}</p>
+      <p *ngIf="profile.vehicleModel"><strong>Vehicle Details:</strong> {{ profile.vehicleModel }}</p>
       <p *ngIf="profile.status"><strong>Status:</strong> {{ profile.status }}</p>
     </div>
   </div>
