@@ -1,15 +1,16 @@
 <div class="profile-container" *ngIf="!isLoading && profile; else loading">
   <div class="card">
     <div class="card-header text-center">
-      <h2>{{ profile.firstName }} </h2>
+      <h2>{{ profile.firstName }}</h2>
     </div>
     <div class="card-body">
       <!-- Profile Photo -->
       <div class="profile-photo">
         <img src="https://tse4.mm.bing.net/th/id/OIP.Wh8x8T49gD9WBvxsxTOecgAAAA?rs=1&pid=ImgDetMain" alt="Profile Photo" />
       </div>
+
       <!-- Profile Details -->
-      <div class="profile-details">
+      <div *ngIf="!isEditing" class="profile-details">
         <p><strong>Email:</strong> {{ profile.emailaddress }}</p>
         <p><strong>Phone:</strong> {{ profile.phone }}</p>
         <p><strong>Role:</strong> {{ profile.role | titlecase }}</p>
@@ -22,7 +23,26 @@
         <p *ngIf="profile.role === 'driver'">
           <strong>Status:</strong> {{ profile.status }}
         </p>
+        <button class="btn btn-primary" (click)="toggleEditMode()">Edit Profile</button>
       </div>
+
+      <!-- Edit Form -->
+      <form *ngIf="isEditing" [formGroup]="editForm" (ngSubmit)="updateProfile()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input id="name" type="text" class="form-control" formControlName="name" />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="email" class="form-control" formControlName="email" />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input id="phone" type="text" class="form-control" formControlName="phone" />
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">Save Changes</button>
+        <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>
+      </form>
     </div>
   </div>
 </div>
