@@ -1,36 +1,67 @@
+/* Container for the profile section */
 .profile-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card {
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+.profile-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.card-header {
-  background-color: #007bff;
-  color: white;
-  padding: 16px;
+/* Profile photo section */
+.profile-photo {
+  flex: 0 0 150px;
   text-align: center;
 }
 
-.card-body {
-  padding: 16px;
+.profile-photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.loading {
-  font-size: 18px;
+.profile-photo img:hover {
+  transform: rotate(5deg) scale(1.1);
+  border-color: #0056b3;
+}
+
+/* Profile details section */
+.profile-details {
+  flex: 1;
+  font-family: 'Arial', sans-serif;
+}
+
+.profile-details h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.profile-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.profile-details strong {
   color: #007bff;
 }
 
-.error {
-  font-size: 18px;
-  color: red;
+/* Loading and error containers */
+.loading-container,
+.error-container {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #555;
 }

@@ -1,17 +1,36 @@
-<div class="profile-container">
-  <div *ngIf="isLoading" class="loading">Loading...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  <div *ngIf="profile" class="card">
-    <div class="card-header">
-      <h3>{{ profile.firstName }}</h3>
+<div class="profile-container" *ngIf="!isLoading && profile; else loading">
+  <div class="card">
+    <div class="card-header text-center">
+      <h2>{{ profile.firstName }} </h2>
     </div>
     <div class="card-body">
-      <p><strong>Email:</strong> {{ profile.emailaddress }}</p>
-      <p><strong>Phone:</strong> {{ profile.phone }}</p>
-      <p *ngIf="profile.role"><strong>Role:</strong> {{ profile.role }}</p>
-      <p *ngIf="profile.licenseNumber"><strong>License No:</strong> {{ profile.licenseNumber }}</p>
-      <p *ngIf="profile.vehicleModel"><strong>Vehicle Details:</strong> {{ profile.vehicleModel }}</p>
-      <p *ngIf="profile.status"><strong>Status:</strong> {{ profile.status }}</p>
+      <!-- Profile Photo -->
+      <div class="profile-photo">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.Wh8x8T49gD9WBvxsxTOecgAAAA?rs=1&pid=ImgDetMain" alt="Profile Photo" />
+      </div>
+      <!-- Profile Details -->
+      <div class="profile-details">
+        <p><strong>Email:</strong> {{ profile.emailaddress }}</p>
+        <p><strong>Phone:</strong> {{ profile.phone }}</p>
+        <p><strong>Role:</strong> {{ profile.role | titlecase }}</p>
+        <p *ngIf="profile.role === 'driver'">
+          <strong>License Number:</strong> {{ profile.licenseNumber }}
+        </p>
+        <p *ngIf="profile.role === 'driver'">
+          <strong>Vehicle Model:</strong> {{ profile.vehicleModel }}
+        </p>
+        <p *ngIf="profile.role === 'driver'">
+          <strong>Status:</strong> {{ profile.status }}
+        </p>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="loading">Loading profile...</div>
+</ng-template>
+
+<ng-template #error>
+  <div class="error">{{ errorMessage }}</div>
+</ng-template>
