@@ -65,6 +65,38 @@ export class AuthService {
     }
   }
 
+  /**
+   * Extracts the user's name from the JWT token stored in sessionStorage.
+   * @returns The user's name or null if not found.
+   */
+  getUserName(): string | null {
+    const token = sessionStorage.getItem('jwt_token');
+    if (!token) {
+      console.warn('JWT token not found in sessionStorage.');
+      return null;
+    }
+
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const payload = JSON.parse(jsonPayload);
+      console.log('Decoded JWT Payload:', payload);
+
+      // Your specific name claim name from the JWT payload
+      const nameClaim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+      return payload[nameClaim] || null;
+    } catch (e) {
+      console.error('Failed to decode JWT token:', e);
+      return null;
+    }
+  }
+
   // --- API interaction methods ---
   createUser(formData: any) {
     return this.http.post(this.baseURL + '/User/register', formData);

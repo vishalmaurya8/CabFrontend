@@ -39,7 +39,7 @@ interface DriverProfile extends BaseProfile {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
 })
