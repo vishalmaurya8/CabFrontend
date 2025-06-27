@@ -55,7 +55,9 @@ export class ProfileComponent implements OnInit {
     this.editForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      licenseNo: [''], // Optional for users
+      vehicleDetails: [''] // Optional for users
     });
   }
 
@@ -119,11 +121,20 @@ export class ProfileComponent implements OnInit {
         }
 
         // Pre-fill the edit form with the fetched profile data
-        this.editForm.patchValue({
-          name: this.profile.firstName,
-          email: this.profile.emailaddress,
-          phone: this.profile.phone
-        });
+        if (userRole === 'user') {
+          this.editForm.patchValue({
+            name: this.profile.firstName,
+            email: this.profile.emailaddress,
+            phone: this.profile.phone
+          });
+        } else if (userRole === 'driver') {
+          this.editForm.patchValue({
+            email: this.profile.emailaddress,
+            phone: this.profile.phone,
+            licenseNo: (this.profile as DriverProfile).licenseNumber,
+            vehicleDetails: (this.profile as DriverProfile).vehicleModel
+          });
+        }
 
         this.isLoading = false;
       },
@@ -150,12 +161,25 @@ export class ProfileComponent implements OnInit {
   // Update profile
   updateProfile(): void {
     if (this.editForm.invalid) {
+      console.log('Form is invalid:', this.editForm.value); // Debug log
       return;
     }
 
     const token = sessionStorage.getItem('jwt_token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    const updateApiUrl = 'https://localhost:7109/api/Customer/profile';
+
+    // Determine the API endpoint based on the user's role
+    const userRole = this.authService.userRole;
+    let updateApiUrl: string = '';
+
+    if (userRole === 'user') {
+      updateApiUrl = 'https://localhost:7109/api/Customer/profile';
+    } else if (userRole === 'driver') {
+      updateApiUrl = 'https://localhost:7109/api/Driver/profile';
+    } else {
+      alert('User role not recognized. Cannot update profile.');
+      return;
+    }
 
     this.http.put(updateApiUrl, this.editForm.value, { headers }).subscribe({
       next: () => {

@@ -12,10 +12,9 @@ import { AuthService } from '../../../shared/services/auth';
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="container text-center py-5">
-      <h1 class="display-4">Welcome, {{ userName }}!</h1>
+      <h1 class="display-4">Dashboard</h1>
       <p class="lead">
-        This is your personalized dashboard with features for booking rides,
-        viewing history, etc.
+        
       </p>
 
       <!-- Ride Booking Form -->

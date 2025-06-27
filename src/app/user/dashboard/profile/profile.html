@@ -28,7 +28,7 @@
 
       <!-- Edit Form -->
       <form *ngIf="isEditing" [formGroup]="editForm" (ngSubmit)="updateProfile()">
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="profile.role === 'user'">
           <label for="name" class="form-label">Name</label>
           <input id="name" type="text" class="form-control" formControlName="name" />
         </div>
@@ -39,6 +39,14 @@
         <div class="mb-3">
           <label for="phone" class="form-label">Phone</label>
           <input id="phone" type="text" class="form-control" formControlName="phone" />
+        </div>
+        <div class="mb-3" *ngIf="profile.role === 'driver'">
+          <label for="licenseNo" class="form-label">License Number</label>
+          <input id="licenseNo" type="text" class="form-control" formControlName="licenseNo" />
+        </div>
+        <div class="mb-3" *ngIf="profile.role === 'driver'">
+          <label for="vehicleDetails" class="form-label">Vehicle Details</label>
+          <input id="vehicleDetails" type="text" class="form-control" formControlName="vehicleDetails" />
         </div>
         <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">Save Changes</button>
         <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>

@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
- ;
+  
 }
 
 .logo {
@@ -68,6 +68,7 @@ nav ul li a:hover {
     width: 80%;
     max-width: 300px;
     display: none;
+    z-index: 1;
   }
 
   nav.active {
