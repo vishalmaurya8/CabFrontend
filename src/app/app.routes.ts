@@ -13,6 +13,8 @@ import { AuthGuard } from './user/auth-guard'; // Import AuthGuard
 import { UserDashboardComponent } from './user/dashboard/userdashboard/userdashboard';
 import { DriverDashboardComponent } from './user/dashboard/driverdashboard/driverdashboard';
 import { ProfileComponent } from './user/dashboard/profile/profile';
+import { RideDetailsComponent } from './user/ride-details/ride-details';
+
 
 export const routes: Routes = [
   { path: 'register', component: Registration },
@@ -25,5 +27,6 @@ export const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] }, // User dashboard
   { path: 'driver-dashboard', component: DriverDashboardComponent, canActivate: [AuthGuard] }, // Driver dashboard
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Profile component
+  { path: 'ride-details', component: RideDetailsComponent}
   // {path: 'User', component: User},
 ];
