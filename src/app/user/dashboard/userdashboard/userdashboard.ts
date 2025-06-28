@@ -13,9 +13,7 @@ import { AuthService } from '../../../shared/services/auth';
   template: `
     <div class="container text-center py-5">
       <h1 class="display-4">Dashboard</h1>
-      <p class="lead">
-        
-      </p>
+      <p class="lead"></p>
 
       <!-- Ride Booking Form -->
       <div class="card mt-4">
@@ -25,7 +23,9 @@ import { AuthService } from '../../../shared/services/auth';
         <div class="card-body">
           <form [formGroup]="rideForm" (ngSubmit)="bookRide()">
             <div class="mb-3">
-              <label for="pickupLocation" class="form-label">Pickup Location</label>
+              <label for="pickupLocation" class="form-label"
+                >Pickup Location</label
+              >
               <input
                 type="text"
                 id="pickupLocation"
@@ -36,7 +36,9 @@ import { AuthService } from '../../../shared/services/auth';
               />
             </div>
             <div class="mb-3">
-              <label for="dropoffLocation" class="form-label">Dropoff Location</label>
+              <label for="dropoffLocation" class="form-label"
+                >Dropoff Location</label
+              >
               <input
                 type="text"
                 id="dropoffLocation"
@@ -76,7 +78,7 @@ import { AuthService } from '../../../shared/services/auth';
                 <th>Dropoff Location</th>
                 <th>Fare</th>
                 <th>Rating</th>
-                <th>Timing</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -84,8 +86,22 @@ import { AuthService } from '../../../shared/services/auth';
                 <td>{{ ride.pickupLocation }}</td>
                 <td>{{ ride.dropoffLocation }}</td>
                 <td>{{ ride.fare | currency }}</td>
-                <td>{{ ride.rating || 'N/A' }}</td>
-                <td>{{ ride.timing | date: 'short' }}</td>
+                <td>
+                  <ng-container *ngIf="ride.rating !== 'N/A'; else noRating">
+                    <span
+                      *ngFor="
+                        let star of [].constructor(ride.rating);
+                        let i = index
+                      "
+                    >
+                    ⭐
+                    </span>
+                  </ng-container>
+                  <ng-template #noRating>
+                    <span class="text-muted">No Rating</span>
+                  </ng-template>
+                </td>
+                
               </tr>
             </tbody>
           </table>
@@ -161,14 +177,19 @@ export class UserDashboardComponent implements OnInit {
             this.isLoading = false;
             this.fetchRideHistory(); // Refresh ride history after booking
             // Navigate to RideDetailsComponent with ride details
-            this.router.navigate(['/ride-details'], { state: { data: response } });
+            this.router.navigate(['/ride-details'], {
+              state: { data: response },
+            });
           },
           error: (error) => {
             console.error('Failed to book ride:', error);
             if (error.error && error.error.message) {
               this.toastr.error(error.error.message, 'Error');
             } else {
-              this.toastr.error('Failed to book ride. Please try again.', 'Error');
+              this.toastr.error(
+                'Failed to book ride. Please try again.',
+                'Error'
+              );
             }
             this.isLoading = false;
           },
@@ -196,20 +217,20 @@ export class UserDashboardComponent implements OnInit {
   fetchRatings(rides: any[]): void {
     const token = sessionStorage.getItem('jwt_token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-  
+
     this.http
       .get<any[]>('https://localhost:7109/api/Rating', { headers })
       .subscribe({
         next: (ratings) => {
           console.log('Fetched Rides:', rides);
           console.log('Fetched Ratings:', ratings);
-  
+
           // Merge ratings with rides based on rideId
           this.rideHistory = rides.map((ride) => {
             const rating = ratings.find((r) => r.rideId === ride.rideId);
             return { ...ride, rating: rating ? rating.score : 'N/A' }; // Use 'score' for the rating
           });
-  
+
           console.log('Merged Ride History:', this.rideHistory);
         },
         error: (error) => {

@@ -52,6 +52,8 @@ import { FormsModule } from '@angular/forms';
           <p><strong>Ride ID:</strong> {{ paymentDetails?.rideId }}</p>
           <p><strong>Driver ID:</strong> {{ paymentDetails?.driverId }}</p>
           <p>
+            <strong>Driver Name:</strong> {{ paymentDetails?.driverName }}
+          <p>
             <strong>Pickup Location:</strong>
             {{ paymentDetails?.pickupLocation }}
           </p>
