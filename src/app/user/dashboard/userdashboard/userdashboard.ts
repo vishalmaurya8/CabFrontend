@@ -160,6 +160,8 @@ export class UserDashboardComponent implements OnInit {
             this.rideForm.reset();
             this.isLoading = false;
             this.fetchRideHistory(); // Refresh ride history after booking
+            // Navigate to RideDetailsComponent with ride details
+            this.router.navigate(['/ride-details'], { state: { data: response } });
           },
           error: (error) => {
             console.error('Failed to book ride:', error);
