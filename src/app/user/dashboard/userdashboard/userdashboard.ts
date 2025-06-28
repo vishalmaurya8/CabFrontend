@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,7 @@ import { AuthService } from '../../../shared/services/auth';
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
     <div class="container text-center py-5">
       <h1 class="display-4">Dashboard</h1>
@@ -78,7 +78,7 @@ import { AuthService } from '../../../shared/services/auth';
                 <th>Dropoff Location</th>
                 <th>Fare</th>
                 <th>Rating</th>
-                
+                <th>Comments</th>
               </tr>
             </thead>
             <tbody>
@@ -87,21 +87,26 @@ import { AuthService } from '../../../shared/services/auth';
                 <td>{{ ride.dropoffLocation }}</td>
                 <td>{{ ride.fare | currency }}</td>
                 <td>
-                  <ng-container *ngIf="ride.rating !== 'N/A'; else noRating">
+                  <!-- Show stars if the ride is rated -->
+                  <ng-container *ngIf="ride.rating !== 'N/A'; else rateButton">
                     <span
-                      *ngFor="
-                        let star of [].constructor(ride.rating);
-                        let i = index
-                      "
+                      *ngFor="let star of [].constructor(ride.rating)"
+                      class="star"
+                      >★</span
                     >
-                    ⭐
-                    </span>
                   </ng-container>
-                  <ng-template #noRating>
-                    <span class="text-muted">No Rating</span>
+
+                  <!-- Show "Rate Ride" button if the ride is not rated -->
+                  <ng-template #rateButton>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      (click)="openRatingModal(ride)"
+                    >
+                      Rate Ride
+                    </button>
                   </ng-template>
                 </td>
-                
+                <td>{{ ride.comments || 'N/A' }}</td>
               </tr>
             </tbody>
           </table>
@@ -109,6 +114,63 @@ import { AuthService } from '../../../shared/services/auth';
         <ng-template #noHistory>
           <p class="text-muted">You have no ride history yet.</p>
         </ng-template>
+      </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div class="modal" tabindex="-1" *ngIf="showRatingModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Rate Ride</h5>
+            <button
+              type="button"
+              class="btn-close"
+              (click)="closeRatingModal()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Rate your ride from {{ selectedRide?.pickupLocation }} to
+              {{ selectedRide?.dropoffLocation }}:
+            </p>
+            <div>
+              <span
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                class="star"
+                [class.selected]="star <= currentRating"
+                (click)="setRating(star)"
+              >
+                ★
+              </span>
+            </div>
+            <div class="mt-3">
+              <label for="comments" class="form-label">Comments</label>
+              <textarea
+                id="comments"
+                class="form-control"
+                [(ngModel)]="comments"
+                placeholder="Enter your comments"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="closeRatingModal()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="submitRating()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `,
@@ -129,6 +191,29 @@ import { AuthService } from '../../../shared/services/auth';
       table {
         width: 100%;
       }
+      .star {
+        color: gold;
+        font-size: 1.5rem;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+      .star.selected {
+        color: orange;
+      }
+      .modal {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-dialog {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+      }
     `,
   ],
 })
@@ -137,6 +222,9 @@ export class UserDashboardComponent implements OnInit {
   userName: string | null = null; // Store the user's name
   isLoading: boolean = false;
   rideHistory: any[] = []; // Store the user's ride history
+  showRatingModal: boolean = false; // To toggle the rating modal
+  selectedRide: any = null; // Store the selected ride for rating
+  currentRating: number = 0; // Store the current rating
 
   constructor(
     private fb: FormBuilder,
@@ -228,7 +316,8 @@ export class UserDashboardComponent implements OnInit {
           // Merge ratings with rides based on rideId
           this.rideHistory = rides.map((ride) => {
             const rating = ratings.find((r) => r.rideId === ride.rideId);
-            return { ...ride, rating: rating ? rating.score : 'N/A' }; // Use 'score' for the rating
+            return { ...ride, rating: rating ? rating.score : 'N/A', 
+            comments: rating ? rating.comments : null,}; // Use 'score' for the rating
           });
 
           console.log('Merged Ride History:', this.rideHistory);
@@ -238,5 +327,58 @@ export class UserDashboardComponent implements OnInit {
           this.toastr.error('Failed to load ratings.', 'Error');
         },
       });
+  }
+
+  openRatingModal(ride: any): void {
+    this.selectedRide = ride;
+    this.currentRating = 0; // Reset the rating
+    this.showRatingModal = true;
+  }
+
+  closeRatingModal(): void {
+    this.showRatingModal = false;
+    this.selectedRide = null;
+  }
+
+  setRating(rating: number): void {
+    this.currentRating = rating;
+  }
+
+  comments: string = ''; // Store user comments
+
+submitRating(): void {
+  if (!this.selectedRide || this.currentRating === 0) {
+    this.toastr.error('Please select a rating before submitting.', 'Error');
+    return;
+  }
+
+  const token = sessionStorage.getItem('jwt_token');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+  const requestBody = {
+    rideId: this.selectedRide.rideId,
+    score: this.currentRating,
+    comments: this.comments || 'No comments provided', // Use user input or a default value
+  };
+
+  console.log('Request Body:', requestBody); // Debug log
+
+  this.http
+    .post('https://localhost:7109/api/Rating', requestBody, { headers })
+    .subscribe({
+      next: () => {
+        this.toastr.success('Rating submitted successfully!', 'Success');
+        this.selectedRide.rating = this.currentRating; // Update the rating locally
+        this.selectedRide.comments = this.comments; // Update the comments locally
+        this.closeRatingModal();
+      },
+      error: (error) => {
+        console.error('Failed to submit rating:', error);
+        if (error.error && error.error.errors) {
+          console.error('Validation Errors:', error.error.errors); // Log validation errors
+        }
+        this.toastr.error('Failed to submit rating. Please try again.', 'Error');
+      },
+    });
   }
 }
