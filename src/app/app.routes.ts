@@ -14,6 +14,7 @@ import { UserDashboardComponent } from './user/dashboard/userdashboard/userdashb
 import { DriverDashboardComponent } from './user/dashboard/driverdashboard/driverdashboard';
 import { ProfileComponent } from './user/dashboard/profile/profile';
 import { RideDetailsComponent } from './user/ride-details/ride-details';
+import { PaymentHistoryComponent } from './user/payment-history/payment-history';
 
 
 export const routes: Routes = [
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] }, // User dashboard
   { path: 'driver-dashboard', component: DriverDashboardComponent, canActivate: [AuthGuard] }, // Driver dashboard
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Profile component
-  { path: 'ride-details', component: RideDetailsComponent}
+  { path: 'ride-details', component: RideDetailsComponent},
   // {path: 'User', component: User},
+  { path: 'payment-history', component: PaymentHistoryComponent, canActivate: [AuthGuard] } // Payment history component
 ];

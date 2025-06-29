@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -76,7 +76,7 @@ import { AuthService } from '../../../shared/services/auth';
               <tr>
                 <th>Pickup Location</th>
                 <th>Dropoff Location</th>
-                <th>Fare</th>
+                
                 <th>Rating</th>
                 <th>Comments</th>
               </tr>
@@ -85,7 +85,7 @@ import { AuthService } from '../../../shared/services/auth';
               <tr *ngFor="let ride of rideHistory">
                 <td>{{ ride.pickupLocation }}</td>
                 <td>{{ ride.dropoffLocation }}</td>
-                <td>{{ ride.fare | currency }}</td>
+                
                 <td>
                   <!-- Show stars if the ride is rated -->
                   <ng-container *ngIf="ride.rating !== 'N/A'; else rateButton">
@@ -114,6 +114,13 @@ import { AuthService } from '../../../shared/services/auth';
         <ng-template #noHistory>
           <p class="text-muted">You have no ride history yet.</p>
         </ng-template>
+      </div>
+
+      <!-- Add the button to view payment history -->
+      <div class="mt-4 text-center">
+        <button class="btn btn-secondary" (click)="viewPaymentHistory()">
+          View Payment History
+        </button>
       </div>
     </div>
 
@@ -231,12 +238,19 @@ export class UserDashboardComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     this.rideForm = this.fb.group({
       pickupLocation: ['', Validators.required],
       dropoffLocation: ['', Validators.required],
     });
+  }
+
+  // Method to navigate to the Payment History page
+  viewPaymentHistory(): void {
+    console.log('Navigating to Payment History');
+    this.router.navigate(['/payment-history']);
   }
 
   ngOnInit(): void {
@@ -294,6 +308,7 @@ export class UserDashboardComponent implements OnInit {
       .subscribe({
         next: (rides) => {
           this.fetchRatings(rides); // Fetch ratings and merge with rides
+          this.cdr.detectChanges(); // Ensure the view updates
         },
         error: (error) => {
           console.error('Failed to fetch ride history:', error);
@@ -316,9 +331,13 @@ export class UserDashboardComponent implements OnInit {
           // Merge ratings with rides based on rideId
           this.rideHistory = rides.map((ride) => {
             const rating = ratings.find((r) => r.rideId === ride.rideId);
-            return { ...ride, rating: rating ? rating.score : 'N/A', 
-            comments: rating ? rating.comments : null,}; // Use 'score' for the rating
+            return {
+              ...ride,
+              rating: rating ? rating.score : 'N/A',
+              comments: rating ? rating.comments : null,
+            }; // Use 'score' for the rating
           });
+          this.cdr.detectChanges(); // Trigger change detection
 
           console.log('Merged Ride History:', this.rideHistory);
         },
@@ -346,39 +365,43 @@ export class UserDashboardComponent implements OnInit {
 
   comments: string = ''; // Store user comments
 
-submitRating(): void {
-  if (!this.selectedRide || this.currentRating === 0) {
-    this.toastr.error('Please select a rating before submitting.', 'Error');
-    return;
-  }
+  submitRating(): void {
+    if (!this.selectedRide || this.currentRating === 0) {
+      this.toastr.error('Please select a rating before submitting.', 'Error');
+      return;
+    }
 
-  const token = sessionStorage.getItem('jwt_token');
-  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const token = sessionStorage.getItem('jwt_token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-  const requestBody = {
-    rideId: this.selectedRide.rideId,
-    score: this.currentRating,
-    comments: this.comments || 'No comments provided', // Use user input or a default value
-  };
+    const requestBody = {
+      rideId: this.selectedRide.rideId,
+      score: this.currentRating,
+      comments: this.comments || 'No comments provided', // Use user input or a default value
+    };
 
-  console.log('Request Body:', requestBody); // Debug log
+    console.log('Request Body:', requestBody); // Debug log
 
-  this.http
-    .post('https://localhost:7109/api/Rating', requestBody, { headers })
-    .subscribe({
-      next: () => {
-        this.toastr.success('Rating submitted successfully!', 'Success');
-        this.selectedRide.rating = this.currentRating; // Update the rating locally
-        this.selectedRide.comments = this.comments; // Update the comments locally
-        this.closeRatingModal();
-      },
-      error: (error) => {
-        console.error('Failed to submit rating:', error);
-        if (error.error && error.error.errors) {
-          console.error('Validation Errors:', error.error.errors); // Log validation errors
-        }
-        this.toastr.error('Failed to submit rating. Please try again.', 'Error');
-      },
-    });
+    this.http
+      .post('https://localhost:7109/api/Rating', requestBody, { headers })
+      .subscribe({
+        next: () => {
+          this.toastr.success('Rating submitted successfully!', 'Success');
+          this.selectedRide.rating = this.currentRating; // Update the rating locally
+          this.selectedRide.comments = this.comments; // Update the comments locally
+          this.closeRatingModal();
+          this.cdr.detectChanges(); // Ensure the view updates
+        },
+        error: (error) => {
+          console.error('Failed to submit rating:', error);
+          if (error.error && error.error.errors) {
+            console.error('Validation Errors:', error.error.errors); // Log validation errors
+          }
+          this.toastr.error(
+            'Failed to submit rating. Please try again.',
+            'Error'
+          );
+        },
+      });
   }
 }
