@@ -76,16 +76,16 @@ import { AuthService } from '../../../shared/services/auth';
               <tr>
                 <th>Pickup Location</th>
                 <th>Dropoff Location</th>
-                
+
                 <th>Rating</th>
                 <th>Comments</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ride of rideHistory">
+              <tr *ngFor="let ride of rideHistory.slice(0, ridesToShow)">
                 <td>{{ ride.pickupLocation }}</td>
                 <td>{{ ride.dropoffLocation }}</td>
-                
+
                 <td>
                   <!-- Show stars if the ride is rated -->
                   <ng-container *ngIf="ride.rating !== 'N/A'; else rateButton">
@@ -110,6 +110,14 @@ import { AuthService } from '../../../shared/services/auth';
               </tr>
             </tbody>
           </table>
+          <div
+            class="text-center mt-3"
+            *ngIf="ridesToShow < rideHistory.length"
+          >
+            <button class="btn btn-secondary" (click)="loadMore()">
+              Load More
+            </button>
+          </div>
         </div>
         <ng-template #noHistory>
           <p class="text-muted">You have no ride history yet.</p>
@@ -232,6 +240,7 @@ export class UserDashboardComponent implements OnInit {
   showRatingModal: boolean = false; // To toggle the rating modal
   selectedRide: any = null; // Store the selected ride for rating
   currentRating: number = 0; // Store the current rating
+  ridesToShow: number = 5; // Number of rides to show initially
 
   constructor(
     private fb: FormBuilder,
@@ -346,6 +355,12 @@ export class UserDashboardComponent implements OnInit {
           this.toastr.error('Failed to load ratings.', 'Error');
         },
       });
+  }
+
+  loadMore(): void {
+    this.ridesToShow += 5; // Increase the number of rides to show
+    console.log('Loading more rides, total now:', this.ridesToShow);
+    this.cdr.detectChanges(); // Ensure the view updates
   }
 
   openRatingModal(ride: any): void {
