@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
           <h4>Total Earnings</h4>
         </div>
         <div class="card-body" *ngIf="stats; else loading">
-          <p class="stat-value">{{ stats.totalEarnings | currency }}</p>
+          <p class="stat-value">{{ stats.totalProfit }}</p>
         </div>
       </div>
     </div>
