@@ -76,7 +76,7 @@ import { AuthService } from '../../../shared/services/auth';
               <tr>
                 <th>Pickup Location</th>
                 <th>Dropoff Location</th>
-
+                
                 <th>Rating</th>
                 <th>Comments</th>
               </tr>
@@ -197,6 +197,7 @@ import { AuthService } from '../../../shared/services/auth';
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        
       }
       .card {
         width: 100%;

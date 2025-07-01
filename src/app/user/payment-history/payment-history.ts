@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
             <tr *ngFor="let payment of payments">
               <td>{{ payment.paymentId }}</td>
               <td>{{ payment.rideId }}</td>
-              <td>{{ payment.amount }}</td>
+              <td>{{ payment.amount | currency: "INR"}}</td>
               <td>{{ payment.method }}</td>
               <td>{{ payment.status }}</td>
               <td>{{ payment.timestamp | date: 'short' }}</td>

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 //import { AuthService } from '../services/auth.service'; // Import AuthService
 import { AuthService } from '../../shared/services/auth'; // Adjusted import path for AuthService
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent {
   backendUrl = 'https://localhost:7109/api/User/login';
   loginError: string | null = null;
 
-  constructor(private router: Router, private http: HttpClient, private authService: AuthService) { } // Inject AuthService
+  constructor(private router: Router, private http: HttpClient, private authService: AuthService, private toastr: ToastrService) { } // Inject AuthService
 
   /**
    * Helper function to decode a JWT token (kept here for consistency, but AuthService also has similar logic).
@@ -85,6 +86,8 @@ export class LoginComponent {
         console.error('Login failed!', error);
         if (error.status === 401 || error.status === 403) {
           this.loginError = 'Invalid email or password. Please check your credentials.';
+          this.toastr.error('Invalid email or password. Please check your credentials.', 'Login Error', {
+            positionClass: 'toast-top-center'})
         } else if (error.error && error.error.message) {
           this.loginError = `Login failed: ${error.error.message}`;
         } else {

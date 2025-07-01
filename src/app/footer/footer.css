@@ -1,0 +1,25 @@
+.footer {
+    background-color: #343a40; /* Dark background */
+    color: #ffffff; /* White text */
+  }
+  
+  .footer a {
+    color: #ffffff; /* White links */
+  }
+  
+  .footer a:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+  
+  .footer-about {
+    max-width: 300px;
+  }
+  
+  .footer-links ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .footer-links ul li {
+    margin-bottom: 8px;
+  }

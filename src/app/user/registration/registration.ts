@@ -9,7 +9,6 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Toast } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth';
 
@@ -134,7 +133,9 @@ export class Registration implements OnInit {
       this.service.createUser(payload).subscribe({
         next: (response) => {
           console.log('API Response:', response); // Debugging: Log API response
-          this.toastr.success('User registered successfully!', 'Success');
+          this.toastr.success('User registered successfully!', 'Success', {
+            positionClass: 'toast-top-center',
+          });
           this.form.reset();
           this.isSubmitted = false;
         },

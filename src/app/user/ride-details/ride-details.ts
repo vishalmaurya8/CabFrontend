@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
             <strong>Dropoff Location:</strong>
             {{ rideDetails?.dropoffLocation }}
           </p>
-          <p><strong>Fare:</strong> {{ rideDetails?.fare | currency }}</p>
+          <p><strong>Fare:</strong> {{ rideDetails?.fare | currency:"INR"}}</p>
           <p><strong>Driver ID:</strong> {{ rideDetails?.driverId }}</p>
           <div class="mb-3">
             <label for="paymentMethod" class="form-label">Payment Method</label>
@@ -61,7 +61,7 @@ import { FormsModule } from '@angular/forms';
             <strong>Dropoff Location:</strong>
             {{ paymentDetails?.dropoffLocation }}
           </p>
-          <p><strong>Fare:</strong> {{ paymentDetails?.amount | currency }}</p>
+          <p><strong>Fare:</strong> {{ paymentDetails?.amount | currency: "INR" }}</p>
           <p><strong>Payment Method:</strong> {{ paymentDetails?.method }}</p>
           <p><strong>Status:</strong> {{ paymentDetails?.status }}</p>
           <button class="btn btn-primary mt-3" (click)="closeReceipt()">
