@@ -1,0 +1,45 @@
+.container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    border-radius: 30px;
+  }
+
+  .display-4{
+    font-weight: bold;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+  }
+  table {
+    width: 100%;
+  }
+  .star {
+    color: gold;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  .star.selected {
+    color: orange;
+  }
+  .modal {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal-dialog {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+  }

@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
           </p>
           <p><strong>Fare:</strong> {{ rideDetails?.fare | currency:"INR"}}</p>
           <p><strong>Driver ID:</strong> {{ rideDetails?.driverId }}</p>
+          <p><strong>Driver Name</strong> {{ rideDetails?.driverNames }} </p>
           <div class="mb-3">
             <label for="paymentMethod" class="form-label">Payment Method</label>
             <select
