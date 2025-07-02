@@ -9,7 +9,7 @@ import { DriverCompletedRidesComponent } from '../drivercompletedrides/drivercom
   imports: [CommonModule, DriverStatsComponent, DriverCompletedRidesComponent],
   template: `
     <div class="container text-center py-5">
-      <h1 class="display-4">Welcome, Driver!</h1>
+      <h1 class="display-4"></h1>
       
 
       <!-- Driver Stats -->

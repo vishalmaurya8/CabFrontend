@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../shared/services/auth';
+import { RideService } from '../../../shared/services/bookrideservice/bookrideservice';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -21,8 +22,9 @@ import { AuthService } from '../../../shared/services/auth';
 })
 
 export class UserDashboardComponent implements OnInit {
+  //Class properties
   rideForm: FormGroup;
-  userName: string | null = null; // Store the user's name
+  userName: string | null = null; // Store the user's name retrieved from AuthService
   isLoading: boolean = false;
   rideHistory: any[] = []; // Store the user's ride history
   showRatingModal: boolean = false; // To toggle the rating modal
@@ -31,13 +33,16 @@ export class UserDashboardComponent implements OnInit {
   ridesToShow: number = 5; // Number of rides to show initially
 
   constructor(
+    //injecting service into component thru DI
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private rideService: RideService
   ) {
+    //reactive form initialization
     this.rideForm = this.fb.group({
       pickupLocation: ['', Validators.required],
       dropoffLocation: ['', Validators.required],
@@ -58,17 +63,15 @@ export class UserDashboardComponent implements OnInit {
   bookRide(): void {
     if (this.rideForm.valid) {
       this.isLoading = true;
-      const token = sessionStorage.getItem('jwt_token');
-      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+      const token = sessionStorage.getItem('jwt_token') || '';
 
       const rideDetails = {
         ...this.rideForm.value,
-        driverId: 8, // Automatically assign driverId as 8
+        driverId: 11, // Automatically assign driverId as 8
       };
 
-      this.http
-        .post('https://localhost:7109/api/Ride/book', rideDetails, { headers })
-        .subscribe({
+      this.rideService.bookRide(rideDetails, token)
+      .subscribe({
           next: (response) => {
             console.log('Ride booked successfully:', response);
             this.toastr.success('Ride booked successfully!', 'Success');
