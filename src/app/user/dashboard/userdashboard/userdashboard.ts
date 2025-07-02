@@ -1,6 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+} from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,8 +17,8 @@ import { AuthService } from '../../../shared/services/auth';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
-    <div class="container text-center py-5">
-      <h1 class="display-4">Dashboard</h1>
+    <div class="container text-center py-5" style="background-image: url('https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_896,w_1344/v1712926828/assets/a3/cf8564-e2a6-418c-b9b0-65dd285c100b/original/3-2-ridesharing-new.jpg'); background-size: cover; background-repeat: no-repeat;">
+      <h1 class="display-4">Go anywhere with TapRide...</h1>
       <p class="lead"></p>
 
       <!-- Ride Booking Form -->
@@ -76,7 +82,7 @@ import { AuthService } from '../../../shared/services/auth';
               <tr>
                 <th>Pickup Location</th>
                 <th>Dropoff Location</th>
-                
+
                 <th>Rating</th>
                 <th>Comments</th>
               </tr>
@@ -197,8 +203,14 @@ import { AuthService } from '../../../shared/services/auth';
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        
+        opacity: 0.9;
+        border-radius: 20px;
       }
+
+      .display-4{
+        font-weight: 500;
+      }
+
       .card {
         width: 100%;
         max-width: 800px;

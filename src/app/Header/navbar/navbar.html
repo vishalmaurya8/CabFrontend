@@ -1,6 +1,9 @@
 <header>
   <div class="container">
-    <h1 class="logo">TapRide</h1>
+    <a routerLink="/home" class="logo-link">
+      <img src="/images/logo2.jpg" alt="TapRide Logo" class="logo" />
+    </a>
+    <h1 class="logo"></h1>
     <button class="menu-toggle" (click)="toggleMenu()">☰</button>
     <nav [class.active]="menuOpen">
       <div class="nav-card">
