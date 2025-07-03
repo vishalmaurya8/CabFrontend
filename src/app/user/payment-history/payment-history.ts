@@ -50,6 +50,11 @@ import { CommonModule } from '@angular/common';
         max-width: 800px;
         margin: auto;
       }
+      th {
+        background-color: #007bff; /* Blue color */
+        color: white; /* White text */
+        text-align: center; /* Center align text */
+      }
     `,
   ],
 })

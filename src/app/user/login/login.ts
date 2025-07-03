@@ -47,7 +47,7 @@ export class LoginComponent {
     console.log('Attempting login with:', this.user);
     this.loginError = null;
 
-    this.http.post<any>(this.backendUrl, this.user).subscribe({
+    this.authService.login(this.user).subscribe({
       next: (response) => {
         console.log('Login successful!', response);
 
@@ -67,8 +67,14 @@ export class LoginComponent {
             console.log(`User role from AuthService: ${userRole}`);
             if (userRole === 'user') {
               this.router.navigate(['/user-dashboard']);
+              this.toastr.success('Login successful!', 'Login Success', {
+                positionClass: 'toast-top-center'
+              });
             } else if (userRole === 'driver') {
               this.router.navigate(['/driver-dashboard']);
+              this.toastr.success('Login successful!', 'Login Success', {
+                positionClass: 'toast-top-center'
+              });
             } else {
               this.loginError = 'Login successful, but role from token is unrecognized. Redirecting to default.';
               this.router.navigate(['/dashboard']);
