@@ -32,6 +32,8 @@
     selectedRide: any = null; // Store the selected ride for rating
     currentRating: number = 0; // Store the current rating
     ridesToShow: number = 5; // Number of rides to show initially
+    currentPage: number = 1;
+    itemsPerPage: number = 5;
 
     constructor(
       //injecting service into component thru DI
@@ -146,6 +148,32 @@
           },
         });
     }
+
+    // Calculate the rides to display based on the current page
+  getPaginatedRides(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.rideHistory.slice(startIndex, endIndex);
+  }
+
+  // Navigate to the previous page
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  // Navigate to the next page
+  nextPage(): void {
+    const totalPages = Math.ceil(this.rideHistory.length / this.itemsPerPage);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.rideHistory.length / this.itemsPerPage);
+  }
 
     loadMore(): void {
       this.ridesToShow += 5; // Increase the number of rides to show

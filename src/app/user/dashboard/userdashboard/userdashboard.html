@@ -54,62 +54,65 @@
 
     <!-- Ride History Section -->
     <div class="card mt-5">
-      <div class="card-header">
-        <h3>Your Ride History</h3>
-      </div>
-      <div class="card-body" *ngIf="rideHistory.length > 0; else noHistory">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Pickup Location</th>
-              <th>Dropoff Location</th>
-
-              <th>Rating</th>
-              <th>Comments</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let ride of rideHistory.slice(0, ridesToShow)">
-              <td>{{ ride.pickupLocation }}</td>
-              <td>{{ ride.dropoffLocation }}</td>
-
-              <td>
-                <!-- Show stars if the ride is rated -->
-                <ng-container *ngIf="ride.rating !== 'N/A'; else rateButton">
-                  <span
-                    *ngFor="let star of [].constructor(ride.rating)"
-                    class="star"
-                    >★</span
-                  >
-                </ng-container>
-
-                <!-- Show "Rate Ride" button if the ride is not rated -->
-                <ng-template #rateButton>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    (click)="openRatingModal(ride)"
-                  >
-                    Rate Ride
-                  </button>
-                </ng-template>
-              </td>
-              <td>{{ ride.comments || 'N/A' }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div
-          class="text-center mt-3"
-          *ngIf="ridesToShow < rideHistory.length"
-        >
-          <button class="btn btn-secondary" (click)="loadMore()">
-            Load More
-          </button>
+        <div class="card-header">
+          <h3>Your Ride History</h3>
         </div>
+        <div class="card-body" *ngIf="rideHistory.length > 0; else noHistory">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Pickup Location</th>
+                <th>Dropoff Location</th>
+                <th>Rating</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ride of getPaginatedRides()">
+                <td>{{ ride.pickupLocation }}</td>
+                <td>{{ ride.dropoffLocation }}</td>
+                <td>
+                  <ng-container *ngIf="ride.rating !== 'N/A'; else rateButton">
+                    <span
+                      *ngFor="let star of [].constructor(ride.rating)"
+                      class="star"
+                      >★</span
+                    >
+                  </ng-container>
+                  <ng-template #rateButton>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      (click)="openRatingModal(ride)"
+                    >
+                      Rate Ride
+                    </button>
+                  </ng-template>
+                </td>
+                <td>{{ ride.comments || 'N/A' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination-controls text-end mt-3">
+            <button
+              class="btn btn-secondary me-2"
+              [disabled]="currentPage === 1"
+              (click)="previousPage()"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-secondary"
+              [disabled]="currentPage === getTotalPages()"
+              (click)="nextPage()"
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+        <ng-template #noHistory>
+          <p class="text-muted">You have no ride history yet.</p>
+        </ng-template>
       </div>
-      <ng-template #noHistory>
-        <p class="text-muted">You have no ride history yet.</p>
-      </ng-template>
-    </div>
 
     <!-- Add the button to view payment history -->
     <div class="mt-4 text-center">
