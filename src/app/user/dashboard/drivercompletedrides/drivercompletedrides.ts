@@ -7,51 +7,61 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="completed-rides-container mt-4">
-      <h3 class="text-center">Completed Rides</h3>
-      <div *ngIf="completedRides.length > 0; else noRides">
-        <table class="table table-striped mt-3">
-          <thead>
-            <tr>
-              <th>Ride ID</th>
-              <th>Pickup Location</th>
-              <th>Dropoff Location</th>
-              <th>Fare</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let ride of getPaginatedRides()">
-              <td>{{ ride.rideId }}</td>
-              <td>{{ ride.pickupLocation }}</td>
-              <td>{{ ride.dropoffLocation }}</td>
-              <td>{{ ride.fare }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="4" class="text-end">
-                <button
-                  class="btn btn-secondary me-2"
-                  [disabled]="currentPage === 1"
-                  (click)="previousPage()"
-                >
-                  ← Previous
-                </button>
-                <button
-                  class="btn btn-secondary"
-                  [disabled]="currentPage === getTotalPages()"
-                  (click)="nextPage()"
-                >
-                  Next →
-                </button>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <ng-template #noRides>
-        <p class="text-muted text-center">No completed rides available.</p>
-      </ng-template>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Completed Rides</h3>
+        </div>
+        <div class="card-body">
+            <!-- This container will be shown only if there are completed rides -->
+            <div *ngIf="completedRides.length > 0; else noRides">
+                <!-- Responsive table wrapper for smaller screens -->
+                <div class="table-responsive">
+                    <!-- Standard Bootstrap striped table -->
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Ride ID</th>
+                                <th>Pickup Location</th>
+                                <th>Dropoff Location</th>
+                                <th class="text-end">Fare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Angular's *ngFor iterates through the paginated rides -->
+                            <tr *ngFor="let ride of getPaginatedRides()">
+                                <td>{{ ride.rideId }}</td>
+                                <td>{{ ride.pickupLocation }}</td>
+                                <td>{{ ride.dropoffLocation }}</td>
+                                <td class="text-end">{{ ride.fare }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination controls are now in the card-footer for better structure -->
+                <div class="d-flex justify-content-end mt-3">
+                    <button
+                        class="btn btn-secondary me-2"
+                        [disabled]="currentPage === 1"
+                        (click)="previousPage()"
+                    >
+                        &larr; Previous
+                    </button>
+                    <button
+                        class="btn btn-secondary"
+                        [disabled]="currentPage === getTotalPages()"
+                        (click)="nextPage()"
+                    >
+                        Next &rarr;
+                    </button>
+                </div>
+            </div>
+
+            <!-- This ng-template will be displayed when there are no rides -->
+            <ng-template #noRides>
+                <p class="text-muted text-center">No completed rides available.</p>
+            </ng-template>
+        </div>
     </div>
   `,
   styles: [
