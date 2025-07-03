@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 // Define interfaces for profile data
 interface BaseProfile {
@@ -49,7 +50,8 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     // Initialize the edit form
     this.editForm = this.fb.group({
@@ -183,7 +185,7 @@ export class ProfileComponent implements OnInit {
 
     this.http.put(updateApiUrl, this.editForm.value, { headers }).subscribe({
       next: () => {
-        alert('Profile updated successfully!');
+        this.toastr.success('Profile updated successfully!');
         this.isEditing = false;
         this.fetchProfile(); // Refresh the profile data
       },

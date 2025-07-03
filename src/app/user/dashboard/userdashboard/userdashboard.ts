@@ -64,10 +64,11 @@ export class UserDashboardComponent implements OnInit {
     if (this.rideForm.valid) {
       this.isLoading = true;
       const token = sessionStorage.getItem('jwt_token') || '';
+      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
       const rideDetails = {
         ...this.rideForm.value,
-        driverId: 11, // Automatically assign driverId as 8
+        driverId: 8, // Automatically assign driverId as 8
       };
 
       this.rideService.bookRide(rideDetails, token)
@@ -100,12 +101,10 @@ export class UserDashboardComponent implements OnInit {
   }
 
   fetchRideHistory(): void {
-    const token = sessionStorage.getItem('jwt_token');
+    const token = sessionStorage.getItem('jwt_token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http
-      .get<any[]>('https://localhost:7109/api/Customer/rides', { headers })
-      .subscribe({
+    this.rideService.fetchRideHistory(token).subscribe({
         next: (rides) => {
           this.fetchRatings(rides); // Fetch ratings and merge with rides
           this.cdr.detectChanges(); // Ensure the view updates
