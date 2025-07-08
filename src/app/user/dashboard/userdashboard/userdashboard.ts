@@ -204,7 +204,7 @@
         return;
       }
 
-      const token = sessionStorage.getItem('jwt_token');
+      const token = sessionStorage.getItem('jwt_token') || '';
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
       const requestBody = {
@@ -215,9 +215,7 @@
 
       console.log('Request Body:', requestBody); // Debug log
 
-      this.http
-        .post('https://localhost:7109/api/Rating', requestBody, { headers })
-        .subscribe({
+      this.ratingService.submitRating(requestBody, token).subscribe({
           next: () => {
             this.toastr.success('Rating submitted successfully!', 'Success');
             this.selectedRide.rating = this.currentRating; // Update the rating locally

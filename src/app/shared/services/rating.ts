@@ -15,4 +15,10 @@ export class RatingService {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<any[]>(`${this.baseUrl}/Rating`, { headers });
   }
+
+  // Submit a rating for a ride
+  submitRating(requestBody: { rideId: number; score: number; comments: string }, token: string): Observable<any> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.post(`${this.baseUrl}/Rating`, requestBody, { headers });
+  }
 }

@@ -139,8 +139,16 @@ export class AuthService {
   /**
    * Synchronous getter for current login status (useful for route guards)
    */
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn.getValue();
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem('jwt_token');
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem('jwt_token');
+  }
+
+  deleteToken(): void {
+    sessionStorage.removeItem('jwt_token');
   }
 
   /**

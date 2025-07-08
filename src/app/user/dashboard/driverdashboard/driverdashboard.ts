@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
       <h1 class="display-4"></h1>
       <!-- Driver Status Section -->
       <div class="status-section mt-4">
-        <h3>Driver Status</h3>
+        <h3>Captain Status</h3>
         <p class="status-message">Current Status: {{ status }}</p>
         <p class="status-advice" *ngIf="status === 'OnDuty'">You are all set!</p>
         <p class="status-advice text-danger" *ngIf="status === 'Unavailable'">Change status to OnDuty to be ready.</p>
